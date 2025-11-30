@@ -1,0 +1,112 @@
+### Fichier de requêtes HTTP pour tester l'API
+### Utilisable avec VS Code + extension REST Client ou IntelliJ HTTP Client
+
+### Variables
+@baseUrl = http://localhost:8080
+@contentType = application/json
+
+### ============================================
+### 1. API BOOKS - NOTRE SERVICE REST
+### ============================================
+
+### Obtenir tous les livres
+GET {{baseUrl}}/api/books
+
+### Obtenir un livre par ID
+GET {{baseUrl}}/api/books/1
+
+### Obtenir un livre par ISBN
+GET {{baseUrl}}/api/books/isbn/978-0132350884
+
+### Rechercher par auteur
+GET {{baseUrl}}/api/books/search/author?author=Martin
+
+### Rechercher par titre
+GET {{baseUrl}}/api/books/search/title?title=Clean
+
+### Créer un nouveau livre
+POST {{baseUrl}}/api/books
+Content-Type: {{contentType}}
+
+{
+  "title": "Refactoring",
+  "author": "Martin Fowler",
+  "isbn": "978-0134757599",
+  "price": 39.99,
+  "description": "Améliorer la conception du code existant",
+  "publicationYear": 2018
+}
+
+### Mettre à jour un livre (remplacer {id} par un ID réel)
+PUT {{baseUrl}}/api/books/1
+Content-Type: {{contentType}}
+
+{
+  "title": "Clean Code - Edition révisée",
+  "author": "Robert C. Martin",
+  "isbn": "978-0132350884",
+  "price": 39.99,
+  "description": "Guide pour écrire du code propre",
+  "publicationYear": 2008
+}
+
+### Supprimer un livre (remplacer {id} par un ID réel)
+DELETE {{baseUrl}}/api/books/6
+
+
+### ============================================
+### 2. API WEATHER - SERVICE EXTERNE
+### ============================================
+
+### Météo à Paris
+GET {{baseUrl}}/api/weather/paris
+
+### Météo à Tunis
+GET {{baseUrl}}/api/weather/tunis
+
+### Météo par coordonnées (New York)
+GET {{baseUrl}}/api/weather?latitude=40.7128&longitude=-74.0060
+
+
+### ============================================
+### 3. API DEMO - CONSOMMATION DE SERVICES
+### ============================================
+
+### Obtenir les livres via le client REST (consommation de notre API)
+GET {{baseUrl}}/api/demo/books-client
+
+### Obtenir un livre par ID via le client
+GET {{baseUrl}}/api/demo/book-client/1
+
+### Démonstration combinée (notre API + API externe)
+GET {{baseUrl}}/api/demo/combined
+
+### Créer et vérifier un livre via le client
+POST {{baseUrl}}/api/demo/create-and-verify
+Content-Type: {{contentType}}
+
+{
+  "title": "Microservices Patterns",
+  "author": "Chris Richardson",
+  "isbn": "978-1617294549",
+  "price": 44.99,
+  "description": "Patterns pour les architectures microservices",
+  "publicationYear": 2018
+}
+
+
+### ============================================
+### 4. AUTRES ENDPOINTS
+### ============================================
+
+### Documentation OpenAPI (JSON)
+GET {{baseUrl}}/api-docs
+
+### Swagger UI (HTML)
+### Ouvrir dans le navigateur : http://localhost:8080/swagger-ui.html
+
+### Console H2
+### Ouvrir dans le navigateur : http://localhost:8080/h2-console
+### JDBC URL: jdbc:h2:mem:testdb
+### Username: sa
+### Password: (vide)

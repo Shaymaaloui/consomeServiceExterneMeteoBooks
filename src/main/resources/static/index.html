@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Bibliothèque - Services Web</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-book-open"></i>
+                <span>Bibliothèque SOA</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a href="books.html"><i class="fas fa-book"></i> Livres</a></li>
+                <li><a href="weather.html"><i class="fas fa-cloud-sun"></i> Météo</a></li>
+                <li><a href="http://localhost:8081/swagger-ui.html" target="_blank"><i class="fas fa-code"></i> API Docs</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1><i class="fas fa-graduation-cap"></i> Projet Services Web - SOA</h1>
+            <p>Démonstration complète de développement et consommation de services web REST</p>
+            <div class="hero-buttons">
+                <a href="books.html" class="btn btn-primary"><i class="fas fa-book"></i> Gérer les Livres</a>
+                <a href="weather.html" class="btn btn-secondary"><i class="fas fa-cloud"></i> Voir la Météo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Dashboard -->
+    <section class="dashboard">
+        <div class="container">
+            <h2><i class="fas fa-chart-line"></i> Tableau de Bord</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalBooks">-</h3>
+                        <p>Livres dans la bibliothèque</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-user-edit"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalAuthors">-</h3>
+                        <p>Auteurs différents</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="temperature">-</h3>
+                        <p>Température à Tunis</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="apiStatus">✓</h3>
+                        <p>API Fonctionnelle</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2><i class="fas fa-star"></i> Fonctionnalités du Projet</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Service Web REST</h3>
+                    <p>API complète de gestion de livres avec CRUD (Create, Read, Update, Delete)</p>
+                    <ul>
+                        <li>✓ Créer des livres</li>
+                        <li>✓ Rechercher par auteur/titre</li>
+                        <li>✓ Mettre à jour les informations</li>
+                        <li>✓ Supprimer des livres</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>Consommation Interne</h3>
+                    <p>Client REST (BookClient) qui consomme notre propre API de livres</p>
+                    <ul>
+                        <li>✓ WebClient Spring</li>
+                        <li>✓ Appels HTTP réels</li>
+                        <li>✓ Gestion des réponses</li>
+                        <li>✓ Démo via /api/demo</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Service Externe</h3>
+                    <p>Intégration avec l'API météo Open-Meteo pour des données en temps réel</p>
+                    <ul>
+                        <li>✓ API gratuite</li>
+                        <li>✓ Données en temps réel</li>
+                        <li>✓ Plusieurs localisations</li>
+                        <li>✓ Pas de clé API requise</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Books -->
+    <section class="recent-books">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-book-reader"></i> Livres Récents</h2>
+                <a href="books.html" class="btn btn-link">Voir tout <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div id="recentBooksList" class="books-list">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Chargement des livres...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-book-open"></i> Bibliothèque SOA</h3>
+                    <p>Projet de services web développé avec Spring Boot</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Technologies</h3>
+                    <ul>
+                        <li>Java 17 + Spring Boot 3</li>
+                        <li>Spring Data JPA</li>
+                        <li>H2 Database</li>
+                        <li>WebClient REST</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Liens Utiles</h3>
+                    <ul>
+                        <li><a href="http://localhost:8081/swagger-ui.html" target="_blank">Documentation API</a></li>
+                        <li><a href="http://localhost:8081/h2-console" target="_blank">Console H2</a></li>
+                        <li><a href="http://localhost:8081/api-docs" target="_blank">OpenAPI JSON</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-envelope"></i> student@university.tn</p>
+                    <p><i class="fas fa-graduation-cap"></i> Projet SOA 2024</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Projet Services Web - SOA. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

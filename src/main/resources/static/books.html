@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Livres - Bibliothèque SOA</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-book-open"></i>
+                <span>Bibliothèque SOA</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a href="books.html" class="active"><i class="fas fa-book"></i> Livres</a></li>
+                <li><a href="weather.html"><i class="fas fa-cloud-sun"></i> Météo</a></li>
+                <li><a href="http://localhost:8081/swagger-ui.html" target="_blank"><i class="fas fa-code"></i> API Docs</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-book"></i> Gestion des Livres</h1>
+            <p>Gérez votre collection de livres via notre API REST</p>
+        </div>
+    </section>
+
+    <!-- Books Management Section -->
+    <section class="books-management">
+        <div class="container">
+            <!-- Search and Add Section -->
+            <div class="actions-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Rechercher par titre ou auteur...">
+                </div>
+                <button class="btn btn-primary" onclick="openAddBookModal()">
+                    <i class="fas fa-plus"></i> Ajouter un Livre
+                </button>
+            </div>
+
+            <!-- Books Grid -->
+            <div id="booksContainer" class="books-grid">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Chargement des livres...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add/Edit Book Modal -->
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"><i class="fas fa-plus"></i> Ajouter un Livre</h2>
+                <button class="close-btn" onclick="closeBookModal()">&times;</button>
+            </div>
+            <form id="bookForm" onsubmit="saveBook(event)">
+                <div class="form-group">
+                    <label for="title"><i class="fas fa-heading"></i> Titre *</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="author"><i class="fas fa-user"></i> Auteur *</label>
+                    <input type="text" id="author" name="author" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="isbn"><i class="fas fa-barcode"></i> ISBN *</label>
+                        <input type="text" id="isbn" name="isbn" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="price"><i class="fas fa-dollar-sign"></i> Prix (€) *</label>
+                        <input type="number" id="price" name="price" step="0.01" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="publicationYear"><i class="fas fa-calendar"></i> Année de publication</label>
+                    <input type="number" id="publicationYear" name="publicationYear" min="1800" max="2024">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description"><i class="fas fa-align-left"></i> Description</label>
+                    <textarea id="description" name="description" rows="4"></textarea>
+                </div>
+                
+                <input type="hidden" id="bookId" name="id">
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeBookModal()">
+                        <i class="fas fa-times"></i> Annuler
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fas fa-exclamation-triangle"></i> Confirmer la suppression</h2>
+                <button class="close-btn" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer ce livre ?</p>
+                <p class="text-danger"><strong id="deleteBookTitle"></strong></p>
+                <p class="text-muted">Cette action est irréversible.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">
+                    <i class="fas fa-times"></i> Annuler
+                </button>
+                <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                    <i class="fas fa-trash"></i> Supprimer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 Projet Services Web - SOA. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/books.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Météo - Bibliothèque SOA</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fas fa-book-open"></i>
+                <span>Bibliothèque SOA</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a href="books.html"><i class="fas fa-book"></i> Livres</a></li>
+                <li><a href="weather.html" class="active"><i class="fas fa-cloud-sun"></i> Météo</a></li>
+                <li><a href="http://localhost:8081/swagger-ui.html" target="_blank"><i class="fas fa-code"></i> API Docs</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-cloud-sun"></i> Météo en Temps Réel</h1>
+            <p>Données météo via l'API externe Open-Meteo</p>
+        </div>
+    </section>
+
+    <!-- Weather Section -->
+    <section class="weather-section">
+        <div class="container">
+            <!-- City Selection -->
+            <div class="city-selector">
+                <button class="city-btn active" onclick="loadWeather('tunis')">
+                    <i class="fas fa-map-marker-alt"></i> Tunis
+                </button>
+                <button class="city-btn" onclick="loadWeather('paris')">
+                    <i class="fas fa-map-marker-alt"></i> Paris
+                </button>
+                <button class="city-btn" onclick="showCustomLocation()">
+                    <i class="fas fa-globe"></i> Autre localisation
+                </button>
+            </div>
+
+            <!-- Custom Location Form -->
+            <div id="customLocationForm" class="custom-location-form" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="latitude"><i class="fas fa-compass"></i> Latitude</label>
+                        <input type="number" id="latitude" step="0.0001" placeholder="Ex: 48.8566">
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude"><i class="fas fa-compass"></i> Longitude</label>
+                        <input type="number" id="longitude" step="0.0001" placeholder="Ex: 2.3522">
+                    </div>
+                    <button class="btn btn-primary" onclick="loadCustomWeather()">
+                        <i class="fas fa-search"></i> Rechercher
+                    </button>
+                </div>
+            </div>
+
+            <!-- Weather Display -->
+            <div id="weatherContainer" class="weather-container">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Chargement de la météo...</p>
+                </div>
+            </div>
+
+            <!-- API Info -->
+            <div class="api-info-card">
+                <div class="api-info-header">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>À propos de ce service</h3>
+                </div>
+                <div class="api-info-content">
+                    <p><strong>Service externe utilisé :</strong> Open-Meteo API</p>
+                    <p><strong>URL :</strong> <a href="https://open-meteo.com" target="_blank">https://open-meteo.com</a></p>
+                    <p><strong>Type :</strong> API REST gratuite</p>
+                    <p><strong>Fonctionnalité :</strong> Consommation d'un service web externe en temps réel</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Pas de clé API nécessaire</li>
+                        <li><i class="fas fa-check"></i> Données météo actualisées</li>
+                        <li><i class="fas fa-check"></i> Plusieurs localisations disponibles</li>
+                        <li><i class="fas fa-check"></i> Service fiable et rapide</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 Projet Services Web - SOA. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/weather.js"></script>
+</body>
+</html>
