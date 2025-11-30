@@ -37,13 +37,13 @@
         <div class="container">
             <!-- City Selection -->
             <div class="city-selector">
-                <button class="city-btn active" onclick="loadWeather('tunis')">
+                <button class="city-btn active" onclick="loadWeather('tunis', event)">
                     <i class="fas fa-map-marker-alt"></i> Tunis
                 </button>
-                <button class="city-btn" onclick="loadWeather('paris')">
+                <button class="city-btn" onclick="loadWeather('paris', event)">
                     <i class="fas fa-map-marker-alt"></i> Paris
                 </button>
-                <button class="city-btn" onclick="showCustomLocation()">
+                <button class="city-btn" onclick="showCustomLocation(event)">
                     <i class="fas fa-globe"></i> Autre localisation
                 </button>
             </div>

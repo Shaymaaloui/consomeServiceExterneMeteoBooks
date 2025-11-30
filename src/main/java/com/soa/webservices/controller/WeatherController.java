@@ -41,11 +41,12 @@ public class WeatherController {
     
     @GetMapping
     @Operation(summary = "Obtenir la météo par coordonnées")
-    public ResponseEntity<WeatherResponse> getWeather(
+    public ResponseEntity<Map<String, Object>> getWeather(
             @RequestParam Double latitude,
             @RequestParam Double longitude) {
         WeatherResponse weather = weatherService.getWeatherByCoordinates(latitude, longitude);
-        return ResponseEntity.ok(weather);
+        String cityName = String.format("Lat: %.4f, Lon: %.4f", latitude, longitude);
+        return ResponseEntity.ok(formatWeatherResponse(weather, cityName));
     }
     
     @GetMapping("/paris")
@@ -73,6 +74,7 @@ public class WeatherController {
             currentWeather.put("temperature", weather.getCurrentWeather().getTemperature() + "°C");
             currentWeather.put("windSpeed", weather.getCurrentWeather().getWindspeed() + " km/h");
             currentWeather.put("time", weather.getCurrentWeather().getTime());
+            currentWeather.put("weathercode", weather.getCurrentWeather().getWeathercode());
             currentWeather.put("description", 
                 weatherService.getWeatherDescription(weather.getCurrentWeather().getWeathercode()));
             

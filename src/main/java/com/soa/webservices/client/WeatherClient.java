@@ -20,9 +20,12 @@ public class WeatherClient {
     
     @Autowired
     public WeatherClient(WebClient.Builder webClientBuilder) {
-        // Créer un WebClient dédié pour l'API externe sans baseUrl
+        // Créer un WebClient dédié pour l'API externe avec timeout augmenté
         this.webClient = WebClient.builder()
                 .baseUrl("https://api.open-meteo.com")
+                .codecs(configurer -> configurer
+                        .defaultCodecs()
+                        .maxInMemorySize(16 * 1024 * 1024))
                 .build();
     }
     

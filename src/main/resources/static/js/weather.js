@@ -5,11 +5,16 @@ let currentCity = 'tunis';
 
 // Charger la météo au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
+    // Activer le bouton Tunis par défaut
+    const tunisBtn = document.querySelector('[onclick*="tunis"]');
+    if (tunisBtn) {
+        tunisBtn.classList.add('active');
+    }
     loadWeather('tunis');
 });
 
 // Charger la météo pour une ville
-async function loadWeather(city) {
+async function loadWeather(city, clickEvent) {
     currentCity = city;
     const container = document.getElementById('weatherContainer');
     
@@ -17,10 +22,17 @@ async function loadWeather(city) {
     document.querySelectorAll('.city-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    event?.target.classList.add('active');
+    
+    // Activer le bouton cliqué (si event existe)
+    if (clickEvent && clickEvent.target) {
+        clickEvent.target.classList.add('active');
+    }
     
     // Cacher le formulaire personnalisé
-    document.getElementById('customLocationForm').style.display = 'none';
+    const customForm = document.getElementById('customLocationForm');
+    if (customForm) {
+        customForm.style.display = 'none';
+    }
     
     container.innerHTML = `
         <div class="loading">
@@ -30,8 +42,15 @@ async function loadWeather(city) {
     `;
     
     try {
+        console.log(`Chargement de la météo pour: ${city}`);
         const response = await fetch(`${API_BASE_URL}/weather/${city}`);
+        
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP: ${response.status}`);
+        }
+        
         const data = await response.json();
+        console.log(`Données reçues pour ${city}:`, data);
         
         displayWeather(data);
         
@@ -42,7 +61,7 @@ async function loadWeather(city) {
                 <i class="fas fa-exclamation-triangle"></i>
                 <p>Erreur lors du chargement de la météo</p>
                 <p style="font-size: 0.9rem; margin-top: 0.5rem;">
-                    Assurez-vous que l'API est démarrée sur le port 8081
+                    ${error.message || 'Assurez-vous que l\'API est démarrée sur le port 8081'}
                 </p>
             </div>
         `;
@@ -77,21 +96,8 @@ async function loadCustomWeather() {
         const response = await fetch(`${API_BASE_URL}/weather?latitude=${latitude}&longitude=${longitude}`);
         const data = await response.json();
         
-        // Formater les données pour correspondre au format attendu
-        const formattedData = {
-            city: `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`,
-            latitude: data.latitude,
-            longitude: data.longitude,
-            currentWeather: {
-                temperature: data.currentWeather ? `${data.currentWeather.temperature}°C` : 'N/A',
-                windSpeed: data.currentWeather ? `${data.currentWeather.windspeed} km/h` : 'N/A',
-                time: data.currentWeather ? data.currentWeather.time : new Date().toISOString(),
-                description: getWeatherDescription(data.currentWeather?.weathercode),
-                weathercode: data.currentWeather?.weathercode
-            }
-        };
-        
-        displayWeather(formattedData);
+        // L'API retourne maintenant un format cohérent avec currentWeather
+        displayWeather(data);
         
     } catch (error) {
         console.error('Erreur lors du chargement de la météo:', error);
@@ -111,7 +117,11 @@ async function loadCustomWeather() {
 function displayWeather(data) {
     const container = document.getElementById('weatherContainer');
     
+    console.log('displayWeather reçoit:', data);
+    console.log('currentWeather:', data.currentWeather);
+    
     if (!data.currentWeather) {
+        console.error('currentWeather est manquant!');
         container.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-cloud"></i>
@@ -122,6 +132,11 @@ function displayWeather(data) {
     }
     
     const weather = data.currentWeather;
+    console.log('weather object:', weather);
+    console.log('temperature:', weather.temperature);
+    console.log('windSpeed:', weather.windSpeed);
+    console.log('weathercode:', weather.weathercode);
+    
     const temperature = weather.temperature ? weather.temperature.replace('°C', '') : 'N/A';
     const windSpeed = weather.windSpeed ? weather.windSpeed.replace(' km/h', '') : 'N/A';
     const time = weather.time ? new Date(weather.time).toLocaleString('fr-FR') : new Date().toLocaleString('fr-FR');
@@ -192,14 +207,19 @@ function displayWeather(data) {
 }
 
 // Afficher le formulaire de localisation personnalisée
-function showCustomLocation() {
+function showCustomLocation(clickEvent) {
     document.querySelectorAll('.city-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    event.target.classList.add('active');
+    
+    if (clickEvent && clickEvent.target) {
+        clickEvent.target.classList.add('active');
+    }
     
     const form = document.getElementById('customLocationForm');
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    if (form) {
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
 }
 
 // Obtenir la description météo selon le code

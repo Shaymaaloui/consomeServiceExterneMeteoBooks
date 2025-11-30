@@ -12,57 +12,15 @@ public class WeatherService {
     private WeatherClient weatherClient;
     
     public WeatherResponse getWeatherByCoordinates(Double latitude, Double longitude) {
-        try {
-            return weatherClient.getWeather(latitude, longitude);
-        } catch (Exception e) {
-            System.err.println("Erreur lors de l'appel à l'API météo pour coordonnées " + latitude + "," + longitude + ": " + e.getMessage());
-            System.err.println("Utilisation du mode offline avec données simulées");
-            // Mode offline : retourner des données simulées
-            return createMockWeatherResponse(latitude, longitude, 15.0, 10.0, 2);
-        }
+        return weatherClient.getWeather(latitude, longitude);
     }
     
-    
     public WeatherResponse getWeatherForTunis() {
-        try {
-            return weatherClient.getWeatherForTunis();
-        } catch (Exception e) {
-            System.err.println("Erreur lors de l'appel à l'API météo pour Tunis: " + e.getMessage());
-            System.err.println("Utilisation du mode offline avec données simulées");
-            // Mode offline : retourner des données simulées
-            return createMockWeatherResponse(36.8065, 10.1815, 18.5, 12.3, 0);
-        }
+        return weatherClient.getWeatherForTunis();
     }
     
     public WeatherResponse getWeatherForParis() {
-        try {
-            return weatherClient.getWeatherForParis();
-        } catch (Exception e) {
-            System.err.println("Erreur lors de l'appel à l'API météo pour Paris: " + e.getMessage());
-            System.err.println("Utilisation du mode offline avec données simulées");
-            // Mode offline : retourner des données simulées
-            return createMockWeatherResponse(48.8566, 2.3522, 12.0, 15.5, 1);
-        }
-    }
-    
-    private WeatherResponse createMockWeatherResponse(Double lat, Double lon, Double temp, Double wind, Integer weatherCode) {
-        WeatherResponse response = new WeatherResponse();
-        response.setLatitude(lat);
-        response.setLongitude(lon);
-        response.setTimezone("CET");
-        response.setTimezoneAbbreviation("CET");
-        response.setElevation(0.0);
-        
-        WeatherResponse.CurrentWeather current = new WeatherResponse.CurrentWeather();
-        current.setTemperature(temp);
-        current.setWindspeed(wind);
-        current.setWinddirection(45);
-        current.setWeathercode(weatherCode);
-        current.setTime(java.time.LocalDateTime.now().toString());
-        current.setIsDay(1);
-        
-        response.setCurrentWeather(current);
-        return response;
+        return weatherClient.getWeatherForParis();
     }
     
     public String getWeatherDescription(Integer weatherCode) {
